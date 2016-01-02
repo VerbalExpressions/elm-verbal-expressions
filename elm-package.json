@@ -1,0 +1,14 @@
+{
+    "version": "1.0.0",
+    "summary": "Elm port of VerbalExpressions",
+    "repository": "https://github.com/lukewestby/ElmVerbalExpressions.git",
+    "license": "MIT",
+    "source-directories": [
+        "src"
+    ],
+    "exposed-modules": ["VerbalExpressions"],
+    "dependencies": {
+        "elm-lang/core": "3.0.0 <= v < 4.0.0"
+    },
+    "elm-version": "0.16.0 <= v < 0.17.0"
+}
