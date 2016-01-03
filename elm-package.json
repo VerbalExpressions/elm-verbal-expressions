@@ -1,7 +1,7 @@
 {
     "version": "1.0.0",
     "summary": "Elm port of VerbalExpressions",
-    "repository": "https://github.com/lukewestby/ElmVerbalExpressions.git",
+    "repository": "https://github.com/lukewestby/elm-verbal-expressions.git",
     "license": "MIT",
     "source-directories": [
         "src"

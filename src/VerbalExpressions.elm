@@ -23,10 +23,11 @@ module VerbalExpressions
   , beginCapture
   , endCapture
   , toRegex
+  , replace
   ) where
 
 {-| Elm port of [VerbalExpressions](https://github.com/VerbalExpressions)
-@docs verex, startOfLine, endOfLine, followedBy, find, possibly, anything, anythingBut, something, somethingBut, lineBreak, tab, word, anyOf, range, withAnyCase, repeatPrevious, repeatPrevious2, multiple, multiple2, orElse, beginCapture, endCapture, toRegex
+@docs verex, startOfLine, endOfLine, followedBy, find, possibly, anything, anythingBut, something, somethingBut, lineBreak, tab, word, anyOf, range, withAnyCase, repeatPrevious, repeatPrevious2, multiple, multiple2, orElse, beginCapture, endCapture, toRegex, replace
 -}
 
 import String
@@ -71,32 +72,18 @@ add value expression =
   }
 
 
-{-| Toggle restriction of matches to start of line
+{-| Restrict matches to start of line
 -}
-startOfLine : Bool -> VerbalExpression -> VerbalExpression
-startOfLine enable expression =
-  let
-    updatedPrefixes =
-      if enable then
-        "^" ++ expression.prefixes
-      else
-        expression.prefixes
-  in
-    { expression | prefixes = updatedPrefixes }
+startOfLine : VerbalExpression -> VerbalExpression
+startOfLine expression =
+  { expression | prefixes = "^" ++ expression.prefixes }
 
 
-{-| Toggle restriction of matches to end of line
+{-| Restrict matches to end of line
 -}
-endOfLine : Bool -> VerbalExpression -> VerbalExpression
-endOfLine enable expression =
-  let
-    updatedSuffixes =
-      if enable then
-        expression.suffixes ++ "$"
-      else
-        expression.suffixes
-  in
-    { expression | suffixes = updatedSuffixes }
+endOfLine : VerbalExpression -> VerbalExpression
+endOfLine expression =
+  { expression | suffixes = expression.suffixes ++ "$" }
 
 
 {-| Include a matching group in the expression
@@ -311,3 +298,11 @@ toRegex expression =
         initialOutput
   in
     flaggedOutput
+
+
+{-| Chainable function for replacing a string with another string using a Regex
+created using VerbalExpressions
+-}
+replace : Regex.HowMany -> String -> String -> Regex -> String
+replace howMany replacement input regex =
+  Regex.replace howMany regex (always replacement) input

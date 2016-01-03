@@ -78,7 +78,7 @@ anythingTest : Assertion
 anythingTest =
   let
     testEx =
-      verex |> startOfLine True |> anything |> toRegex
+      verex |> startOfLine |> anything |> toRegex
   in
     assertEqual True (Regex.contains testEx "awiorllkhahl124559a agaogg87")
 
@@ -86,7 +86,7 @@ anythingButTest : Assertion
 anythingButTest =
   let
     testEx =
-      verex |> startOfLine True |> anythingBut "w" |> toRegex
+      verex |> startOfLine |> anythingBut "w" |> toRegex
   in
     assertEqual True (Regex.contains testEx "what")
 
@@ -118,7 +118,7 @@ startOfLineMatchTest : Assertion
 startOfLineMatchTest =
   let
     testEx =
-      verex |> startOfLine True |> followedBy "a" |> toRegex
+      verex |> startOfLine |> followedBy "a" |> toRegex
   in
     assertEqual True (Regex.contains testEx "ab")
 
@@ -126,7 +126,7 @@ startOfLineMismatchTest : Assertion
 startOfLineMismatchTest =
   let
     testEx =
-      verex |> startOfLine True |> followedBy "a" |> toRegex
+      verex |> startOfLine |> followedBy "a" |> toRegex
   in
     assertEqual False (Regex.contains testEx "ba")
 
@@ -134,7 +134,7 @@ endOfLineMatchTest : Assertion
 endOfLineMatchTest =
   let
     testEx =
-      verex |> find "a" |> endOfLine True |> toRegex
+      verex |> find "a" |> endOfLine |> toRegex
   in
     assertEqual True (Regex.contains testEx "ba")
 
@@ -142,7 +142,7 @@ endOfLineMismatchTest : Assertion
 endOfLineMismatchTest =
   let
     testEx =
-      verex |> find "a" |> endOfLine True |> toRegex
+      verex |> find "a" |> endOfLine |> toRegex
   in
     assertEqual False (Regex.contains testEx "ab")
 
@@ -150,7 +150,7 @@ possiblyWithMatchTest : Assertion
 possiblyWithMatchTest =
   let
     testEx =
-      verex |> startOfLine True |> followedBy "a" |> possibly "b" |> toRegex
+      verex |> startOfLine |> followedBy "a" |> possibly "b" |> toRegex
   in
     assertEqual True (Regex.contains testEx "abc")
 
@@ -158,7 +158,7 @@ possiblyWithoutMatchTest : Assertion
 possiblyWithoutMatchTest =
   let
     testEx =
-      verex |> startOfLine True |> followedBy "a" |> possibly "b" |> toRegex
+      verex |> startOfLine |> followedBy "a" |> possibly "b" |> toRegex
   in
     assertEqual True (Regex.contains testEx "acd")
 
@@ -166,7 +166,7 @@ anyOfMatchTest : Assertion
 anyOfMatchTest =
   let
     testEx =
-      verex |> startOfLine True |> followedBy "a" |> anyOf "xyz" |> toRegex
+      verex |> startOfLine |> followedBy "a" |> anyOf "xyz" |> toRegex
   in
     assertEqual True (Regex.contains testEx "ay")
 
@@ -174,7 +174,7 @@ anyOfMismatchTest : Assertion
 anyOfMismatchTest =
   let
     testEx =
-      verex |> startOfLine True |> followedBy "a" |> anyOf "xyz" |> toRegex
+      verex |> startOfLine |> followedBy "a" |> anyOf "xyz" |> toRegex
   in
     assertEqual False (Regex.contains testEx "ab")
 
@@ -182,7 +182,7 @@ orElseMatchTest : Assertion
 orElseMatchTest =
   let
     testEx =
-      verex |> startOfLine True |> followedBy "abc" |> orElse "def" |> toRegex
+      verex |> startOfLine |> followedBy "abc" |> orElse "def" |> toRegex
   in
     assertEqual True (Regex.contains testEx "defzzz")
 
@@ -191,7 +191,7 @@ orElseMismatchTest : Assertion
 orElseMismatchTest =
   let
     testEx =
-      verex |> startOfLine True |> followedBy "abc" |> orElse "def" |> toRegex
+      verex |> startOfLine |> followedBy "abc" |> orElse "def" |> toRegex
   in
     assertEqual False (Regex.contains testEx "zzzabc")
 
@@ -199,7 +199,7 @@ lineBreakTest : Assertion
 lineBreakTest =
   let
     testEx =
-      verex |> startOfLine True |> followedBy "abc" |> lineBreak |> followedBy "def" |> toRegex
+      verex |> startOfLine |> followedBy "abc" |> lineBreak |> followedBy "def" |> toRegex
   in
     assertEqual True (Regex.contains testEx "abc\r\ndef")
 
@@ -207,7 +207,7 @@ tabTest : Assertion
 tabTest =
   let
     testEx =
-      verex |> startOfLine True |> tab |> followedBy "def" |> toRegex
+      verex |> startOfLine |> tab |> followedBy "def" |> toRegex
   in
     assertEqual True (Regex.contains testEx "\tdef")
 
@@ -215,6 +215,6 @@ withAnyCaseTest : Assertion
 withAnyCaseTest =
   let
     testEx =
-      verex |> startOfLine True |> followedBy "a" |> withAnyCase True |> toRegex
+      verex |> startOfLine |> followedBy "a" |> withAnyCase True |> toRegex
   in
     assertEqual True (Regex.contains testEx "A")
