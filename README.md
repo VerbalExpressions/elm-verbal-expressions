@@ -6,7 +6,7 @@ expressions.
 ## Example
 
 ```elm
-import Regex exposing (Regex)
+import Regex exposing (Regex, HowMany(..))
 import VerbalExpressions exposing (..)
 
 
@@ -39,6 +39,18 @@ testMe =
 result : Bool
 result =
   Regex.contains tester testMe
+
+
+{-| Replace a string with another
+
+    replaced == "We have a blue house"
+-}
+replaced : String
+replaced =
+  verex
+    |> find "red"
+    |> toRegex
+    |> replace All "blue" "We have a red house"
 ```
 
 ## API differences
