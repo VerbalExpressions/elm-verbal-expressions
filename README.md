@@ -3,6 +3,20 @@
 VerbalExpressions is an Elm package that helps to construct difficult regular
 expressions.
 
+## Other Implementations
+
+You can see an up to date list of all ports on [VerbalExpressions.github.io](http://VerbalExpressions.github.io).
+- [Ruby](https://github.com/ryan-endacott/verbal_expressions)
+- [C#](https://github.com/VerbalExpressions/CSharpVerbalExpressions)
+- [Python](https://github.com/VerbalExpressions/PythonVerbalExpressions)
+- [Java](https://github.com/VerbalExpressions/JavaVerbalExpressions)
+- [Groovy](https://github.com/VerbalExpressions/GroovyVerbalExpressions)
+- [PHP](https://github.com/VerbalExpressions/PHPVerbalExpressions)
+- [Haskell](https://github.com/VerbalExpressions/HaskellVerbalExpressions)
+- [C++](https://github.com/VerbalExpressions/CppVerbalExpressions)
+- [Objective-C](https://github.com/VerbalExpressions/ObjectiveCVerbalExpressions)
+- [Perl](https://github.com/VerbalExpressions/PerlVerbalExpressions)
+
 ## Example
 
 ```elm
