@@ -90,6 +90,6 @@ Additionally, the following operators have been omitted for technical or convent
 
 ---
 
-This Elm package is based off of the original Javascript
+This Elm package is based on the original Javascript
 [VerbalExpressions](https://github.com/VerbalExpressions/JSVerbalExpressions)
 library by [jehna](https://github.com/jehna/).
