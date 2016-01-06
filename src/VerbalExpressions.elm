@@ -23,11 +23,12 @@ module VerbalExpressions
   , beginCapture
   , endCapture
   , toRegex
+  , toString
   , replace
   ) where
 
 {-| Elm port of [VerbalExpressions](https://github.com/VerbalExpressions)
-@docs verex, startOfLine, endOfLine, followedBy, find, possibly, anything, anythingBut, something, somethingBut, lineBreak, tab, word, anyOf, range, withAnyCase, repeatPrevious, repeatPrevious2, multiple, multiple2, orElse, beginCapture, endCapture, toRegex, replace
+@docs verex, startOfLine, endOfLine, followedBy, find, possibly, anything, anythingBut, something, somethingBut, lineBreak, tab, word, anyOf, range, withAnyCase, repeatPrevious, repeatPrevious2, multiple, multiple2, orElse, beginCapture, endCapture, toRegex, toString, replace
 -}
 
 import String
@@ -204,14 +205,14 @@ searchOneLine enable expression =
 -}
 repeatPrevious : Int -> VerbalExpression -> VerbalExpression
 repeatPrevious times =
-  times |> toString |> wrapWith "{" "}" |> add
+  times |> Basics.toString |> wrapWith "{" "}" |> add
 
 
 {-| Repeat the prior case within some range of times
 -}
 repeatPrevious2 : Int -> Int -> VerbalExpression -> VerbalExpression
 repeatPrevious2 start end =
-  ((toString start) ++ "," ++ (toString end))
+  ((Basics.toString start) ++ "," ++ (Basics.toString end))
     |> wrapWith "{" "}"
     |> add
 
@@ -231,7 +232,7 @@ multiple2 value times =
     value' =
       value |> wrapWith "(?:" ")"
     times' =
-      times |> toString |> wrapWith "{" "}"
+      times |> Basics.toString |> wrapWith "{" "}"
   in
     add (value' ++ times')
 
@@ -298,6 +299,14 @@ toRegex expression =
         initialOutput
   in
     flaggedOutput
+
+
+{-| Compile result down to a String
+Note, this is just a string of the expression. Modifier flags are discarded.
+-}
+toString : VerbalExpression -> String
+toString expression =
+    expression.prefixes ++ expression.source ++ expression.suffixes
 
 
 {-| Chainable function for replacing a string with another string using a Regex
