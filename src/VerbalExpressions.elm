@@ -281,13 +281,21 @@ endCapture expression =
       |> \exp -> { exp | suffixes = updatedSuffixes }
 
 
+{-| Compile result down to a String
+Note, this is just a string of the expression. Modifier flags are discarded.
+-}
+toString : VerbalExpression -> String
+toString expression =
+  expression.prefixes ++ expression.source ++ expression.suffixes
+
+
 {-| Compile result down to a Regex.regex
 -}
 toRegex : VerbalExpression -> Regex
 toRegex expression =
   let
     joined =
-      expression.prefixes ++ expression.source ++ expression.suffixes
+      toString expression
 
     initialOutput =
       Regex.regex joined
@@ -299,14 +307,6 @@ toRegex expression =
         initialOutput
   in
     flaggedOutput
-
-
-{-| Compile result down to a String
-Note, this is just a string of the expression. Modifier flags are discarded.
--}
-toString : VerbalExpression -> String
-toString expression =
-    expression.prefixes ++ expression.source ++ expression.suffixes
 
 
 {-| Chainable function for replacing a string with another string using a Regex
