@@ -1,4 +1,4 @@
-# ElmVerbalExpressions
+# VerbalExpressions
 
 VerbalExpressions is an Elm package that helps to construct difficult regular
 expressions.
