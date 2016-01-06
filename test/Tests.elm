@@ -52,6 +52,9 @@ all =
     , suite "withAnyCase"
       [ test "lowercase 'a' matches uppercase 'A'" withAnyCaseTest
       ]
+    , suite "toString"
+      [ test "can be stringified" toStringCaseTest
+      ]
     ]
 
 somethingEmptyTest : Assertion
@@ -218,3 +221,11 @@ withAnyCaseTest =
       verex |> startOfLine |> followedBy "a" |> withAnyCase True |> toRegex
   in
     assertEqual True (Regex.contains testEx "A")
+
+toStringCaseTest : Assertion
+toStringCaseTest =
+  let
+    testEx =
+      verex |> startOfLine |> followedBy "a" |> VerbalExpressions.toString
+  in
+    assertEqual "^(?:a)" testEx
