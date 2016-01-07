@@ -35,17 +35,16 @@ module VerbalExpressions
 import String
 import Regex exposing (Regex)
 
-type alias Modifiers =
-  { insensitive : Bool
-  , multiline : Bool
-  }
 
 {-| The main type used for constructing verbal expressions -}
 type alias VerbalExpression =
   { prefixes : String
   , source : String
   , suffixes : String
-  , modifiers : Modifiers
+  , modifiers :
+    { insensitive : Bool
+    , multiline : Bool
+    }
   }
 
 
