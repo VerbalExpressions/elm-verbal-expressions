@@ -25,10 +25,11 @@ module VerbalExpressions
   , toRegex
   , toString
   , replace
+  , VerbalExpression
   ) where
 
 {-| Elm port of [VerbalExpressions](https://github.com/VerbalExpressions)
-@docs verex, startOfLine, endOfLine, followedBy, find, possibly, anything, anythingBut, something, somethingBut, lineBreak, tab, word, anyOf, range, withAnyCase, repeatPrevious, repeatPrevious2, multiple, multiple2, orElse, beginCapture, endCapture, toRegex, toString, replace
+@docs verex, startOfLine, endOfLine, followedBy, find, possibly, anything, anythingBut, something, somethingBut, lineBreak, tab, word, anyOf, range, withAnyCase, repeatPrevious, repeatPrevious2, multiple, multiple2, orElse, beginCapture, endCapture, toRegex, toString, replace, VerbalExpression
 -}
 
 import String
@@ -39,6 +40,7 @@ type alias Modifiers =
   , multiline : Bool
   }
 
+{-| The main type used for constructing verbal expressions -}
 type alias VerbalExpression =
   { prefixes : String
   , source : String
