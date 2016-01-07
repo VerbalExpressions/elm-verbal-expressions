@@ -1,5 +1,6 @@
 module VerbalExpressions
-  ( verex
+  ( VerbalExpression
+  , verex
   , startOfLine
   , endOfLine
   , followedBy
@@ -28,22 +29,22 @@ module VerbalExpressions
   ) where
 
 {-| Elm port of [VerbalExpressions](https://github.com/VerbalExpressions)
-@docs verex, startOfLine, endOfLine, followedBy, find, possibly, anything, anythingBut, something, somethingBut, lineBreak, tab, word, anyOf, range, withAnyCase, repeatPrevious, repeatPrevious2, multiple, multiple2, orElse, beginCapture, endCapture, toRegex, toString, replace
+@docs VerbalExpression, verex, startOfLine, endOfLine, followedBy, find, possibly, anything, anythingBut, something, somethingBut, lineBreak, tab, word, anyOf, range, withAnyCase, repeatPrevious, repeatPrevious2, multiple, multiple2, orElse, beginCapture, endCapture, toRegex, toString, replace
 -}
 
 import String
 import Regex exposing (Regex)
 
-type alias Modifiers =
-  { insensitive : Bool
-  , multiline : Bool
-  }
-
+{-| A record type representing the components of a regular expression
+-}
 type alias VerbalExpression =
   { prefixes : String
   , source : String
   , suffixes : String
-  , modifiers : Modifiers
+  , modifiers :
+    { insensitive : Bool
+    , multiline : Bool
+    }
   }
 
 
