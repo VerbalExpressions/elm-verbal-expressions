@@ -1,5 +1,6 @@
 module VerbalExpressions
-  ( verex
+  ( VerbalExpression
+  , verex
   , startOfLine
   , endOfLine
   , followedBy
@@ -25,7 +26,6 @@ module VerbalExpressions
   , toRegex
   , toString
   , replace
-  , VerbalExpression
   ) where
 
 {-| Elm port of [VerbalExpressions](https://github.com/VerbalExpressions)
