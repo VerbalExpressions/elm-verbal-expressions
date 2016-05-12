@@ -1,32 +1,4 @@
-module VerbalExpressions
-  ( VerbalExpression
-  , verex
-  , startOfLine
-  , endOfLine
-  , followedBy
-  , find
-  , possibly
-  , anything
-  , anythingBut
-  , something
-  , somethingBut
-  , lineBreak
-  , tab
-  , word
-  , anyOf
-  , range
-  , withAnyCase
-  , repeatPrevious
-  , repeatPrevious2
-  , multiple
-  , multiple2
-  , orElse
-  , beginCapture
-  , endCapture
-  , toRegex
-  , toString
-  , replace
-  ) where
+module VerbalExpressions exposing (VerbalExpression, verex, startOfLine, endOfLine, followedBy, find, possibly, anything, anythingBut, something, somethingBut, lineBreak, tab, word, anyOf, range, withAnyCase, repeatPrevious, repeatPrevious2, multiple, multiple2, orElse, beginCapture, endCapture, toRegex, toString, replace)
 
 {-| Elm port of [VerbalExpressions](https://github.com/VerbalExpressions)
 @docs verex, startOfLine, endOfLine, followedBy, find, possibly, anything, anythingBut, something, somethingBut, lineBreak, tab, word, anyOf, range, withAnyCase, repeatPrevious, repeatPrevious2, multiple, multiple2, orElse, beginCapture, endCapture, toRegex, toString, replace, VerbalExpression
@@ -36,15 +8,16 @@ import String
 import Regex exposing (Regex)
 
 
-{-| The main type used for constructing verbal expressions -}
+{-| The main type used for constructing verbal expressions
+-}
 type alias VerbalExpression =
   { prefixes : String
   , source : String
   , suffixes : String
   , modifiers :
-    { insensitive : Bool
-    , multiline : Bool
-    }
+      { insensitive : Bool
+      , multiline : Bool
+      }
   }
 
 
@@ -56,9 +29,9 @@ verex =
   , source = ""
   , suffixes = ""
   , modifiers =
-    { insensitive = False
-    , multiline = True
-    }
+      { insensitive = False
+      , multiline = True
+      }
   }
 
 
@@ -70,7 +43,7 @@ wrapWith start end value =
 add : String -> VerbalExpression -> VerbalExpression
 add value expression =
   { expression
-  | source = expression.source ++ value
+    | source = expression.source ++ value
   }
 
 
@@ -146,13 +119,15 @@ lineBreak =
   add "(?:\\r\\n|\\r|\\n)"
 
 
-{-| Match a tab -}
+{-| Match a tab
+-}
 tab : VerbalExpression -> VerbalExpression
 tab =
   add "\\t"
 
 
-{-| Match an alphanumeric word -}
+{-| Match an alphanumeric word
+-}
 word : VerbalExpression -> VerbalExpression
 word =
   add "\\w+"
@@ -167,12 +142,12 @@ anyOf value =
 
 {-| Match a character class with ranges
 -}
-range : List (String, String) -> VerbalExpression -> VerbalExpression
+range : List ( String, String ) -> VerbalExpression -> VerbalExpression
 range args =
   let
     rendered =
       args
-        |> List.map (\(left, right) -> left ++ "-" ++ right)
+        |> List.map (\( left, right ) -> left ++ "-" ++ right)
         |> String.join ""
   in
     rendered |> wrapWith "[" "]" |> add
@@ -232,6 +207,7 @@ multiple2 value times =
   let
     value' =
       value |> wrapWith "(?:" ")"
+
     times' =
       times |> Basics.toString |> wrapWith "{" "}"
   in
@@ -252,8 +228,9 @@ orElse value expression =
     expression
       |> add ")|(?:"
       |> followedBy value
-      |> \exp -> { exp | prefixes = updatedPrefixes }
-      |> \exp -> { exp | suffixes = updatedSuffixes }
+      |> \exp ->
+          { exp | prefixes = updatedPrefixes }
+            |> \exp -> { exp | suffixes = updatedSuffixes }
 
 
 {-| Start capturing a group
