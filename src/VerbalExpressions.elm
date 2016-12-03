@@ -205,13 +205,13 @@ multiple value =
 multiple2 : String -> Int -> VerbalExpression -> VerbalExpression
 multiple2 value times =
   let
-    value' =
+    value_ =
       value |> wrapWith "(?:" ")"
 
-    times' =
+    times_ =
       times |> Basics.toString |> wrapWith "{" "}"
   in
-    add (value' ++ times')
+    add (value_ ++ times_)
 
 
 {-| Add an alternative expression
