@@ -1,7 +1,7 @@
-module VerbalExpressions exposing (VerbalExpression, anyOf, anything, anythingBut, beginCapture, endCapture, endOfLine, find, followedBy, lineBreak, multiple, multiple2, orElse, possibly, range, repeatPrevious, repeatPrevious2, replace, something, somethingBut, startOfLine, tab, toRegex, toString, verex, withAnyCase, word)
+module VerbalExpressions exposing (VerbalExpression, anyOf, anything, anythingBut, beginCapture, captureGroup, endCapture, endOfLine, find, followedBy, lineBreak, multiple, multiple2, orElse, possibly, range, repeatPrevious, repeatPrevious2, replace, something, somethingBut, startOfLine, tab, toRegex, toString, verex, withAnyCase, word)
 
 {-| Elm port of [VerbalExpressions](https://github.com/VerbalExpressions)
-@docs verex, startOfLine, endOfLine, followedBy, find, possibly, anything, anythingBut, something, somethingBut, lineBreak, tab, word, anyOf, range, withAnyCase, repeatPrevious, repeatPrevious2, multiple, multiple2, orElse, beginCapture, endCapture, toRegex, toString, replace, VerbalExpression
+@docs verex, startOfLine, endOfLine, followedBy, find, possibly, anything, anythingBut, something, somethingBut, lineBreak, tab, word, anyOf, range, withAnyCase, repeatPrevious, repeatPrevious2, multiple, multiple2, orElse, beginCapture, endCapture, captureGroup, toRegex, toString, replace, VerbalExpression
 -}
 
 import Regex exposing (Regex)
@@ -258,6 +258,13 @@ endCapture expression =
     expression
         |> add ")"
         |> (\exp -> { exp | suffixes = updatedSuffixes })
+
+
+{-| Captures a group
+-}
+captureGroup : VerbalExpression -> VerbalExpression
+captureGroup expression =
+    beginCapture >> expression >> endCapture
 
 
 {-| Compile result down to a String
