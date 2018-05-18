@@ -20,51 +20,48 @@ You can see an up to date list of all ports on [VerbalExpressions.github.io](htt
 ## Example
 
 ```elm
-import Regex exposing (Regex, HowMany(..))
+import Regex exposing (Regex)
 import VerbalExpressions exposing (..)
 
-
-{-| Create an example of how to test for correctly formed URLs
+{-| Create an example of how to test for correctly formed URLs.
 -}
-tester : Regex
-tester =
-  verex
-    |> startOfLine
-    |> followedBy "http"
-    |> possibly "s"
-    |> followedBy "://"
-    |> possibly "www."
-    |> anythingBut " "
-    |> endOfLine
-    |> toRegex
+urlTester : Maybe Regex
+urlTester =
+    verex
+        |> startOfLine
+        |> followedBy "http"
+        |> possibly "s"
+        |> followedBy "://"
+        |> possibly "www."
+        |> anythingBut " "
+        |> endOfLine
+        |> toRegex
 
 
-{-| Create an example URL
+{-| Use Regex.contains to determine if we have a valid URL.
+
+    isValidUrl "https://www.google.com" --> True
+
 -}
-testMe : String
-testMe =
-  "https://www.google.com"
+isValidUrl : String -> Bool
+isValidUrl url =
+    urlTester
+        |> Maybe.map (\regex -> Regex.contains regex url)
+        |> Maybe.withDefault False
 
 
-{-| Use Regex.contains to determine if we have a url
+{-| Replace a string with another.
 
-    result == True
+    replaceRedToBlue "We have a red house" --> "We have a blue house"
+
 -}
-result : Bool
-result =
-  Regex.contains tester testMe
-
-
-{-| Replace a string with another
-
-    replaced == "We have a blue house"
--}
-replaced : String
-replaced =
-  verex
-    |> find "red"
-    |> toRegex
-    |> replace All "blue" "We have a red house"
+replaceRedToBlue : String -> String
+replaceRedToBlue string =
+    verex
+        |> find "red"
+        |> toRegex
+        |> Maybe.map (\regex -> Regex.replace regex (\_ -> "blue") string)
+        |> Maybe.withDefault string
 ```
 
 ## API differences

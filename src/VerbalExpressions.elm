@@ -1,11 +1,44 @@
-module VerbalExpressions exposing (VerbalExpression, anyOf, anything, anythingBut, beginCapture, captureGroup, endCapture, endOfLine, find, followedBy, lineBreak, multiple, multiple2, orElse, possibly, range, repeatPrevious, repeatPrevious2, replace, something, somethingBut, startOfLine, tab, toRegex, toString, verex, withAnyCase, word)
+module VerbalExpressions
+    exposing
+        ( VerbalExpression
+        , anyOf
+        , anything
+        , anythingBut
+        , beginCapture
+        , captureGroup
+        , endCapture
+        , endOfLine
+        , find
+        , followedBy
+        , lineBreak
+        , multiple
+        , multiple2
+        , orElse
+        , possibly
+        , range
+        , repeatPrevious
+        , repeatPrevious2
+        , something
+        , somethingBut
+        , startOfLine
+        , tab
+        , toRegex
+        , toString
+        , verex
+        , withAnyCase
+        , word
+        )
 
 {-| Elm port of [VerbalExpressions](https://github.com/VerbalExpressions)
-@docs verex, startOfLine, endOfLine, followedBy, find, possibly, anything, anythingBut, something, somethingBut, lineBreak, tab, word, anyOf, range, withAnyCase, repeatPrevious, repeatPrevious2, multiple, multiple2, orElse, beginCapture, endCapture, captureGroup, toRegex, toString, replace, VerbalExpression
+
+@docs verex, startOfLine, endOfLine, followedBy, find, possibly, anything, anythingBut
+@docs something, somethingBut, lineBreak, tab, word, anyOf, range, withAnyCase, repeatPrevious
+@docs repeatPrevious2, multiple, multiple2, orElse, beginCapture, endCapture, captureGroup, toRegex
+@docs toString, VerbalExpression
+
 -}
 
 import Regex exposing (Regex)
-import String
 
 
 {-| The main type used for constructing verbal expressions
@@ -181,14 +214,14 @@ searchOneLine enable expression =
 -}
 repeatPrevious : Int -> VerbalExpression -> VerbalExpression
 repeatPrevious times =
-    times |> Basics.toString |> wrapWith "{" "}" |> add
+    times |> String.fromInt |> wrapWith "{" "}" |> add
 
 
 {-| Repeat the prior case within some range of times
 -}
 repeatPrevious2 : Int -> Int -> VerbalExpression -> VerbalExpression
 repeatPrevious2 start end =
-    (Basics.toString start ++ "," ++ Basics.toString end)
+    (String.fromInt start ++ "," ++ String.fromInt end)
         |> wrapWith "{" "}"
         |> add
 
@@ -209,7 +242,7 @@ multiple2 value times =
             value |> wrapWith "(?:" ")"
 
         times_ =
-            times |> Basics.toString |> wrapWith "{" "}"
+            times |> String.fromInt |> wrapWith "{" "}"
     in
     add (value_ ++ times_)
 
@@ -229,8 +262,10 @@ orElse value expression =
         |> add ")|(?:"
         |> followedBy value
         |> (\exp ->
-                { exp | prefixes = updatedPrefixes }
-                    |> (\exp -> { exp | suffixes = updatedSuffixes })
+                { exp
+                    | prefixes = updatedPrefixes
+                    , suffixes = updatedSuffixes
+                }
            )
 
 
@@ -262,7 +297,7 @@ endCapture expression =
 
 {-| Captures a group
 -}
-captureGroup : VerbalExpression -> VerbalExpression
+captureGroup : (VerbalExpression -> VerbalExpression) -> VerbalExpression -> VerbalExpression
 captureGroup expression =
     beginCapture >> expression >> endCapture
 
@@ -277,27 +312,11 @@ toString expression =
 
 {-| Compile result down to a Regex.regex
 -}
-toRegex : VerbalExpression -> Regex
+toRegex : VerbalExpression -> Maybe Regex
 toRegex expression =
-    let
-        joined =
-            toString expression
-
-        initialOutput =
-            Regex.regex joined
-
-        flaggedOutput =
-            if expression.modifiers.insensitive then
-                Regex.caseInsensitive initialOutput
-            else
-                initialOutput
-    in
-    flaggedOutput
-
-
-{-| Chainable function for replacing a string with another string using a Regex
-created using VerbalExpressions
--}
-replace : Regex.HowMany -> String -> String -> Regex -> String
-replace howMany replacement input regex =
-    Regex.replace howMany regex (always replacement) input
+    expression
+        |> toString
+        |> Regex.fromStringWith
+            { caseInsensitive = expression.modifiers.insensitive
+            , multiline = expression.modifiers.multiline
+            }
