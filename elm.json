@@ -3,7 +3,7 @@
     "name": "VerbalExpressions/elm-verbal-expressions",
     "summary": "Elm port of VerbalExpressions",
     "license": "MIT",
-    "version": "2.0.0",
+    "version": "3.0.0",
     "exposed-modules": [
         "VerbalExpressions"
     ],

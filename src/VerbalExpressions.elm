@@ -38,7 +38,7 @@ module VerbalExpressions
 
 -}
 
-import Regex exposing (Regex)
+import Regex
 
 
 {-| The main type used for constructing verbal expressions
@@ -310,9 +310,9 @@ toString expression =
     expression.prefixes ++ expression.source ++ expression.suffixes
 
 
-{-| Compile result down to a Regex.regex
+{-| Compile result down to a Regex.Regex
 -}
-toRegex : VerbalExpression -> Maybe Regex
+toRegex : VerbalExpression -> Regex.Regex
 toRegex expression =
     expression
         |> toString
@@ -320,3 +320,4 @@ toRegex expression =
             { caseInsensitive = expression.modifiers.insensitive
             , multiline = expression.modifiers.multiline
             }
+        |> Maybe.withDefault Regex.never
